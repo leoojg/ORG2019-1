@@ -154,8 +154,13 @@
 
 				setBombs:						## Adiciona o valor calculado das bombas ao redor de i, j em campo[i][j]
 				sw $t6, ($t2)
-
 				isBomb:
+
+				lw $t5, ($t2)
+				li $v0, 1
+				move $a0, $t5
+				syscall
+
 				addi $t2, $t2, 4					## offset += 4
 				addi $t4, $t4, 1					## j += 1
 				j loop_j
@@ -164,7 +169,10 @@
 			li $v0, 4
 			la $a0, barran
 			syscall
-
+			
+			mul $t5, $t3, 36
+			add $t5, $t5, $t0
+			move $t2, $t5
 			addi $t3, $t3, 1
 			j loop_i
 		fimLoop_i:	
