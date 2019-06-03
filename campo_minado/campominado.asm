@@ -151,11 +151,11 @@
 	fim:
 		li $v0, 4
 		la $a0, explosionMessage
-		#syscall
+		syscall
 		move $a0, $t0								## Carrega endere�o de campo em $a0
 		move $a1, $t1								## Carrega endere�o de openFields em $a1
 		move $a2, $s7								## Coloca a ordem da matriz campo em $a2
-		#jal mostra_campo
+		jal mostra_campo
 		li $v0, 4
 		la $a0, endGameMessage
 		syscall
