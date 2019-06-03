@@ -10,7 +10,7 @@
 	alreadyChoseMessage:	.asciiz "\nVoce ja escolheu essa posicao!!\n"
 	newMoveMessage:		.asciiz "Nova jogada!!\n\n"
 	explosionMessage:	.asciiz "\nUma bomb explodiu!!\n\n"
-	winningMessage:		.asciiz "\nParabéns, você ganhou!!\n"
+	winningMessage:		.asciiz "\nParabï¿½ns, vocï¿½ ganhou!!\n"
 	endGameMessage:		.asciiz "\nFim de jogo"
 
 	openFields:		.word 0 0 0 0 0 0 0 0 0
@@ -32,15 +32,10 @@
 				.word 0 0 0 0 0 0 0 0 0
 				.word 0 0 0 9 0 9 0 0 0
 				.word 0 0 9 9 0 0 0 0 0
+
 .text
 
 	main:							###  Inicio do programa
-		la $a0, campo
-		la $a1, openFields
-		li $a2, 9
-		jal mostra_campo
-		j fim
-		##############
 		li $v0, 4
 		la $a0, initMessage
 		syscall
@@ -85,7 +80,7 @@
 		la $a0, startMessage
 		syscall
 		
-		la $a0, campo								## Carrega endereço de campo em $a0
+		la $a0, campo								## Carrega endereï¿½o de campo em $a0
 		move $a1, $s7								## Coloca a ordem da matriz campo em $a1
 		jal calcula_bombas
 		j getLineColumn
@@ -104,15 +99,15 @@
 		la $a0, lineMessage
 		syscall
 		li $v0, 5
-		syscall									## Lê i
+		syscall									## Lï¿½ i
 		move $t0, $v0
 		li $v0, 4
 		la $a0, columnMessage
-		syscall									## Lê j
+		syscall									## Lï¿½ j
 		li $v0, 5
 		syscall
 		move $t1, $v0
-											## Verifica se i e j são validos de acordo com a dificuldade
+											## Verifica se i e j sï¿½o validos de acordo com a dificuldade
 		addi $t6, $s7, 1
 		slt $t5, $zero, $t0
 		beq $zero, $t5, lineColumnMessageError
@@ -145,11 +140,11 @@
 		la $a0, newMoveMessage							## Mensagem para realizar outra jogada
 		syscall
 		
-		move $a0, $t0								## Carrega endereço de campo em $a0
-		move $a1, $t1								## Carrega endereço de openFields em $a1
+		move $a0, $t0								## Carrega endereï¿½o de campo em $a0
+		move $a1, $t1								## Carrega endereï¿½o de openFields em $a1
 		move $a2, $s7								## Coloca a ordem da matriz campo em $a2
-		#jal mostra_campo
-		#j getLineColumn
+		jal mostra_campo
+		j getLineColumn
 		
 	
 
@@ -157,8 +152,8 @@
 		li $v0, 4
 		la $a0, explosionMessage
 		#syscall
-		move $a0, $t0								## Carrega endereço de campo em $a0
-		move $a1, $t1								## Carrega endereço de openFields em $a1
+		move $a0, $t0								## Carrega endereï¿½o de campo em $a0
+		move $a1, $t1								## Carrega endereï¿½o de openFields em $a1
 		move $a2, $s7								## Coloca a ordem da matriz campo em $a2
 		#jal mostra_campo
 		li $v0, 4
@@ -190,54 +185,54 @@
 											## campo[i-1][j-1]
 				beq $t3, $zero, _menos4					## se i = 0 pula para campo[i][j-1]
 				beq $t4, $zero, _menos36				## se j = 0 pula para campo[i-1][j]
-				addi $t7, $t2, -40					## $t7 tem endereço de campo[i-1][j-1]
+				addi $t7, $t2, -40					## $t7 tem endereï¿½o de campo[i-1][j-1]
 				lw $t5, ($t7)						## $t7 = campo[i-1][j-1]
 				seq $t7, $t5, 9						## $t7 = 1 se campo[i-1][j-1] = 9 senao 0
 				add $t6, $t6, $t7					## $t6 += $t7
 
 				_menos36:						## campo[i-1][j]
-				addi $t7, $t2, -36					## $t7 tem endereço de campo[i-1][j]
+				addi $t7, $t2, -36					## $t7 tem endereï¿½o de campo[i-1][j]
 				lw $t5, ($t7)						## $t7 = campo[i-1][j]
 				seq $t7, $t5, 9						## $t7 = 1 se campo[i-1][j] = 9 senao 0
 				add $t6, $t6, $t7					## $t6 += $t7
 
 											## campo[i-1][j+1]
 				beq $t4, $t7, _menos4					## se j = n, pula para campo[i][j-1]
-				addi $t7, $t2, -32					## $t7 tem endereço de campo[i-1][j+1]
+				addi $t7, $t2, -32					## $t7 tem endereï¿½o de campo[i-1][j+1]
 				lw $t5, ($t7)						## $t7 = campo[i-1][j+1]
 				seq $t7, $t5, 9						## $t7 = 1 se campo[i-1][j+1] = 9 senao 0
 				add $t6, $t6, $t7					## $t6 += $t7
 
 				_menos4:						## campo[i][j-1]
 				beq $t4, $zero, _4					## se j = 0 pula para campo[i][j+1]
-				addi $t7, $t2, -4					## $t7 tem endereço de campo[i][j-1]
+				addi $t7, $t2, -4					## $t7 tem endereï¿½o de campo[i][j-1]
 				lw $t5, ($t7)						## $t7 = campo[i][j-1]
 				seq $t7, $t5, 9						## $t7 = 1 se campo[i][j-1] = 9 senao 0
 				add $t6, $t6, $t7					## $t6 += $t7
 
 				_4:							## campo[i][j+1]
 				beq $t4, $t1, _32					## se j = n, pula para campo[i+1][j-1]
-				addi $t7, $t2, 4					## $t7 tem endereço de campo[i][j+1]
+				addi $t7, $t2, 4					## $t7 tem endereï¿½o de campo[i][j+1]
 				lw $t5, ($t7)						## $t7 = campo[i][j+1]
 				seq $t7, $t5, 9						## $t7 = 1 se campo[i][j+1] = 9 senao 0
 				add $t6, $t6, $t7					## $t6 += $t7
 
 				_32:							## campo[i+1][j-1]
 				beq $t3, $t1, setBombs					## se i = n, pula para setBombs
-				addi $t7, $t2, 32					## $t7 tem endereço de campo[i+1][j-1]
+				addi $t7, $t2, 32					## $t7 tem endereï¿½o de campo[i+1][j-1]
 				lw $t5, ($t7)						## $t7 = campo[i+1][j-1]
 				seq $t7, $t5, 9						## $t7 = 1 se campo[i+1][j-1] = 9 senao 0
 				add $t6, $t6, $t7					## $t6 += $t7
 
 											## campo[i+1][j]
-				addi $t7, $t2, 36					## $t7 tem endereço de campo[i+1][j]
+				addi $t7, $t2, 36					## $t7 tem endereï¿½o de campo[i+1][j]
 				lw $t5, ($t7)						## $t7 = campo[i+1][j]
 				seq $t7, $t5, 9						## $t7 = 1 se campo[i+1][j] = 9 senao 0
 				add $t6, $t6, $t7					## $t6 += $t7
 
 											## campo[i+1][j+1]
 				beq $t4, $t1, setBombs					## se j = n, pula para setBombs
-				addi $t7, $t2, 40					## $t7 tem endereço de campo[i+1][j+1]
+				addi $t7, $t2, 40					## $t7 tem endereï¿½o de campo[i+1][j+1]
 				lw $t5, ($t7)						## $t7 = campo[i+1][j+1]
 				seq $t7, $t5, 9						## $t7 = 1 se campo[i+1][j+1] = 9 senao 0
 				add $t6, $t6, $t7					## $t6 += $t7
@@ -252,7 +247,7 @@
 			fimLoop_j:
 			
 			mul $t5, $t3, 36						## $t5 = offset em linhas
-			add $t2, $t5, $t0						## $t2 += endereço campo, atualiza offset na matriz
+			add $t2, $t5, $t0						## $t2 += endereï¿½o campo, atualiza offset na matriz
 			addi $t3, $t3, 1
 			j loop_i
 		fimLoop_i:	
@@ -260,7 +255,7 @@
 	
 	mostra_campo:
 		move $t0, $a0								## $t0 = endereco da matriz campo
-		move $t1, $a1								## $t1 = ordem da matriz campo
+		move $t1, $a1								## $t1 = endereÃ§o da matriz openFields
 		li $t2, 0								## Offset geral setado pra 0
 		li $t3, 0								## $t3 -> i = 0
 		loop_i_:
@@ -268,18 +263,18 @@
 			li $t4, 0							## $t4 -> j = 0
 			loop_j_:
 				beq $a2, $t4, fimLoop_j_
-				add $t5, $t0, $t2					## Offset em campo setado
-				add $t6, $t1, $t2					## Offset em openFields setado
-				lw $t7, ($t6)
-				beq $t7, $zero, printx					## se openField[i][j] for 0 vai para print0
-				lw $t7, ($t5)						## lw em campo[i][j]
+				add $t5, $t0, $t2					## Offset em campo setado em $t5
+				add $t6, $t1, $t2					## Offset em openFields setado em $t6
+				lw $t7, ($t6)						## Carrega openFields[i][j] em $t7
+				#beq $t7, $zero, print					## se openField[i][j] for 0 vai para print
+				#lw $t7, ($t5)						## Carrega campo[i][j] em $t7
 				li $v0, 1
 				move $a0, $t7
 				syscall
 				j printSpace
-				printx:
+				print:
 				li $v0 11
-				li $a0 'X'
+				li $a0 '-'
 				syscall
 				printSpace:
 				li $v0 11
