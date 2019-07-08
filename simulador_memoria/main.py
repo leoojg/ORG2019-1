@@ -1,3 +1,5 @@
+## Alunos: Leonardo José e Michel
+
 MM = []
 for i in range(128):
 	MM.append(0)
@@ -55,7 +57,7 @@ def isInCache(address, write):
 	block = (int(address, 2)//4)
 	DS = block%4
 	label = int(address[:4], 2)
-	offset = int(address[6:], 2)
+	offset = int(address[5:], 2)
 	lru()
 	inCache = False
 	for i in CM[DS]:
@@ -65,10 +67,10 @@ def isInCache(address, write):
 			inCache = True
 	if not inCache:
 		getFromMemory(block, label, DS)
-		print('Endereço não encontrado na cache!')
+		print('Endereço não encontrado na cache! Bloco: ' + str(block) + ' Rótulo: ' + str(label) + ' Offset: ' + str(offset))
 		addStatistics(False, write)
 	else:
-		print('Endereço na cache!')
+		print('Endereço na cache! Bloco: ' + str(block) + ' Rótulo: ' + str(label) + ' Offset: ' + str(offset))
 		addStatistics(True, write)
 	if write:
 		print('Digite o que deseja guardar na memória: ',end='')
